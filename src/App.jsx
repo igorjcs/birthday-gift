@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, Typography } from "@mui/material";
+import bgImage from "/src/assets/bg1.jpg";
 import './App.css';
 
 export default function App() {
@@ -33,7 +34,7 @@ export default function App() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-white p-4 bg-contain bg-center bg-no-repeat"
       style={{
-        backgroundImage: "url('/src/assets/bg1.jpg')",
+        backgroundImage: `url(${bgImage})`,
         backgroundSize: 'cover', // Garante que a imagem cubra toda a tela
         backgroundPosition: 'center', // Centraliza a imagem
         backgroundRepeat: 'no-repeat', // Não repete a imagem
