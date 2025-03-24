@@ -1,10 +1,9 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, Typography } from "@mui/material";
-import bgImage from "/src/assets/bg1.jpg";
 import './App.css';
 
 export default function App() {
-  const targetDate = new Date("2025-03-25T00:00:00-03:00").getTime();
+  const targetDate = new Date("2025-03-24T20:56:00-03:00").getTime();
   const [timeLeft, setTimeLeft] = useState(targetDate - Date.now());
   const [showButton, setShowButton] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
@@ -34,7 +33,7 @@ export default function App() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-white p-4 bg-contain bg-center bg-no-repeat"
       style={{
-        backgroundImage: `url(${bgImage})`,
+        backgroundImage: "url(/bg1.jpg)",
         backgroundSize: 'cover', // Garante que a imagem cubra toda a tela
         backgroundPosition: 'center', // Centraliza a imagem
         backgroundRepeat: 'no-repeat', // Não repete a imagem
@@ -86,8 +85,8 @@ export default function App() {
           <iframe
             width="560"
             height="315"
-            src="https://www.youtube.com/embed/SEU_VIDEO_ID"
-            title="YouTube video player"
+            src="https://www.youtube.com/embed/aXr9iGm7BHo"
+            title="Vídeo de aniversário"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
