@@ -3,7 +3,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 import './App.css';
 
 export default function App() {
-  const targetDate = new Date("2025-03-24T20:56:00-03:00").getTime();
+  const targetDate = new Date("2025-03-25T00:00:00-03:00").getTime();
   const [timeLeft, setTimeLeft] = useState(targetDate - Date.now());
   const [showButton, setShowButton] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
