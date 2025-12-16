@@ -1,98 +1,90 @@
-import { useState, useEffect } from "react";
-import { Card, CardContent, Typography } from "@mui/material";
+import { useState } from "react";
+import { Box, Container } from "@mui/material";
+import { useCountdown } from "./hooks/useCountdown";
+import CountdownDisplay from "./components/CountdownDisplay";
+import RevealButton from "./components/RevealButton";
+import VideoModal from "./components/VideoModal";
+import Confetti from "./components/Confetti";
 import './App.css';
 
+/**
+ * Main App component - Birthday countdown and gift reveal
+ */
 export default function App() {
-  const targetDate = new Date("2025-03-25T00:00:00-03:00").getTime();
-  const [timeLeft, setTimeLeft] = useState(targetDate - Date.now());
-  const [showButton, setShowButton] = useState(false);
-  const [showVideo, setShowVideo] = useState(false);
+  // Configuration - can be overridden with environment variables
+  const TARGET_DATE = import.meta.env.VITE_TARGET_DATE || "2025-03-25T00:00:00-03:00";
+  const VIDEO_ID = import.meta.env.VITE_VIDEO_ID || "aXr9iGm7BHo";
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = targetDate - now;
-      setTimeLeft(difference);
+  // State management
+  const { days, hours, minutes, seconds, isComplete } = useCountdown(TARGET_DATE);
+  const [videoModalOpen, setVideoModalOpen] = useState(false);
 
-      if (difference <= 0) {
-        clearInterval(interval);
-        setShowButton(true);
-      }
-    }, 1000);
-    return () => clearInterval(interval);
-  }, [targetDate]);
+  const handleOpenVideo = () => {
+    setVideoModalOpen(true);
+  };
 
-  const formatTime = (ms) => {
-    const seconds = Math.floor((ms / 1000) % 60);
-    const minutes = Math.floor((ms / 1000 / 60) % 60);
-    const hours = Math.floor((ms / (1000 * 60 * 60)) % 24);
-    const days = Math.floor(ms / (1000 * 60 * 60 * 24));
-    return `${hours}h ${minutes}m ${seconds}s`;
+  const handleCloseVideo = () => {
+    setVideoModalOpen(false);
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-white p-4 bg-contain bg-center bg-no-repeat"
-      style={{
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
         backgroundImage: "url(/bg1.jpg)",
-        backgroundSize: 'cover', // Garante que a imagem cubra toda a tela
-        backgroundPosition: 'center', // Centraliza a imagem
-        backgroundRepeat: 'no-repeat', // Não repete a imagem
-        width: '100%', // Largura completa da tela
-        height: '100vh',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        position: "relative",
+        "&::before": {
+          content: '""',
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          zIndex: 0,
+        },
       }}
     >
-      <h1 className="text-3xl font-bold mb-4">Contagem regressiva</h1>
-      <div className="w-full flex justify-center items-center">
-        <Card
-          sx={{
-            width: '100%', // Ocupa toda a largura do container
-            maxWidth: 600, // Largura máxima para não ficar muito grande
-            padding: 3,
-            borderRadius: 4,
-            backgroundColor: "#ffffffa0", // Cor de fundo com transparência
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-            textAlign: "center",
-          }}
-        >
-          <CardContent>
-            <Typography variant="h5" component="div" sx={{ fontWeight: "bold" }}>
-              {timeLeft > 0 ? "Faltam" : "Feliz aniversário!"}
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "monospace",
-                fontSize: "2rem",
-                marginTop: 2,
-                color: "#f67280", // Cor agradável
-              }}
-            >
-              {timeLeft > 0 ? formatTime(timeLeft) : ""}
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-      {showButton && (
-        <button
-          className="mt-4 px-6 py-3 bg-green-500 text-white font-bold rounded-lg shadow-lg hover:bg-green-600"
-          onClick={() => setShowVideo(true)}
-        >
-          Clique aqui
-        </button>
-      )}
-      {showVideo && (
-        <div className="mt-4">
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/aXr9iGm7BHo"
-            title="Vídeo de aniversário"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
-        </div>
-      )}
-    </div>
+      {/* Confetti animation when countdown completes */}
+      <Confetti active={isComplete} />
+
+      <Container
+        maxWidth="md"
+        sx={{
+          position: "relative",
+          zIndex: 1,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: 3,
+        }}
+      >
+        {/* Countdown display */}
+        <CountdownDisplay
+          days={days}
+          hours={hours}
+          minutes={minutes}
+          seconds={seconds}
+          isComplete={isComplete}
+        />
+
+        {/* Reveal button - shown when countdown completes */}
+        {isComplete && <RevealButton onClick={handleOpenVideo} />}
+      </Container>
+
+      {/* Video modal */}
+      <VideoModal
+        open={videoModalOpen}
+        onClose={handleCloseVideo}
+        videoId={VIDEO_ID}
+      />
+    </Box>
   );
 }
