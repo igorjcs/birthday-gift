@@ -1,8 +1,11 @@
 {
-  "name": "countdown-app",
+  "name": "birthday-gift-countdown",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Uma aplicação web moderna e interativa para contagem regressiva de aniversário com surpresa especial",
   "type": "module",
+  "keywords": ["birthday", "countdown", "gift", "react", "vite", "celebration"],
+  "author": "Igor JCS",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -12,8 +15,11 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^7.3.6",
     "@mui/material": "^6.4.8",
+    "prop-types": "^15.8.1",
     "react": "^19.0.0",
+    "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
