@@ -11,9 +11,9 @@ import './App.css';
  * Main App component - Birthday countdown and gift reveal
  */
 export default function App() {
-  // Configuration
-  const TARGET_DATE = "2025-03-25T00:00:00-03:00";
-  const VIDEO_ID = "aXr9iGm7BHo";
+  // Configuration - can be overridden with environment variables
+  const TARGET_DATE = import.meta.env.VITE_TARGET_DATE || "2025-03-25T00:00:00-03:00";
+  const VIDEO_ID = import.meta.env.VITE_VIDEO_ID || "aXr9iGm7BHo";
 
   // State management
   const { days, hours, minutes, seconds, isComplete } = useCountdown(TARGET_DATE);

@@ -16,20 +16,3 @@ body, html {
   padding: 0;
   overflow-x: hidden;
 }
-
-/* Smooth animations */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Apply fade-in animation to main container */
-.fade-in {
-  animation: fadeIn 0.8s ease-out;
-}
